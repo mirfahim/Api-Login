@@ -1,81 +1,46 @@
+import 'package:api_login/model/response_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+
+import '../sharePreference.dart';
 import 'homepage.dart';
 
 
 class Login extends StatefulWidget {
+  UserDetails userDetails = new UserDetails();
   @override
   _LoginState createState() => _LoginState();
 }
 
 class _LoginState extends State<Login> {
 
-
-  TextEditingController _emailController = TextEditingController();
+  var notification ;
+  bool isprocesscomplete = false;
+  TextEditingController _userController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
-
-
-  bool _isLoading = false;
-
-
-  // arrange method for api log in
-
-  signIn(String email, String password) async {
-    String url = "https://reqres.in/api/login";
-
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    Map body = { "email": email, "password": password
-    };
-
-    var jsonResponse;
-    var res = await http.post(url, body: body);
-
-    //need to check the api status
-
-    if (res.statusCode == 200) {
-      jsonResponse = json.decode(res.body);
-      print("Response status: ${res.statusCode}");
-      print("Response status: ${res.body}");
-
-      if (jsonResponse != null) {
-        setState(() {
-          _isLoading = false;
-        });
-
-        sharedPreferences.setString("token", jsonResponse['token']);
-        Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (BuildContext) => HomePage()),
-                (Route<dynamic> route) => false);
-      }
-    } else {
-      setState(() {
-        _isLoading == false;
-      });
-      print(" Response status : ${res.body}");
-    }
-  }
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  String BaseUrl = "http://www.accounting.emicrodev.com/api/login";
 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:  SingleChildScrollView(
+      key: _scaffoldKey,
+      body: SingleChildScrollView(
         child: Center(
           child: Container(
+            height: 770,
+             color:  Colors. lightBlue,
             padding: EdgeInsets.fromLTRB(20, 100, 20, 20),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
-
               children: [
-                Text("email:eve.holt@reqres.in"),
-                Text("password: cityslicka"),
-                Text("Login",
-                style: TextStyle(fontSize: 32),
+
+                Text(
+                  "Login",
+                  style: TextStyle(fontSize: 32),
                 ),
                 SizedBox(
                   height: 30,
@@ -95,47 +60,44 @@ class _LoginState extends State<Login> {
                         Padding(
                           padding: const EdgeInsets.all(30),
                           child: TextField(
-                            controller: _emailController,
-                            decoration: InputDecoration(hintText: "Email"),
-
+                            controller: _userController,
+                            decoration: InputDecoration(hintText: "Username"),
                           ),
                         ),
-
-
-
                         Padding(
                           padding: const EdgeInsets.all(30),
                           child: TextField(
                             controller: _passwordController,
                             obscureText: true,
-
-
+                            decoration: InputDecoration(hintText: "Password"),
                           ),
                         ),
                       ],
                     ),
                   ),
                 ),
-
+                SizedBox(
+                  height: 10,
+                ),
                 SizedBox(
                   height: 60,
                   width: MediaQuery.of(context).size.width,
                   child: RaisedButton(
-                    color: Colors.lightBlue,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Text("Sign In"),
-                    onPressed: _emailController.text == ""||
-                        _passwordController.text == ""
-                        ? null
-                        : () {
-                      setState(() {
-                        _isLoading = true ;
-
-                      });
-                      signIn(_emailController.text, _passwordController.text);
+                    color: Colors.blue,
+                    onPressed: () {
+                      if (_userController.text == "" ||
+                          _passwordController.text == "") {
+                        final snackBar = SnackBar(
+                            content: Text("Enter Username and Password"));
+                        _scaffoldKey.currentState.showSnackBar(snackBar);
+                      } else {
+                        signIn(_userController.text, _passwordController.text);
+                      }
                     },
+                    child: ProgressButton(),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(16),
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -143,9 +105,7 @@ class _LoginState extends State<Login> {
                 ),
                 FlatButton(
                   child: Text("Forgot password"),
-                      onPressed: (){
-
-          },
+                  onPressed: () {},
                 ),
               ],
             ),
@@ -153,5 +113,86 @@ class _LoginState extends State<Login> {
         ),
       ),
     );
+  }
+
+  Widget ProgressButton() {
+    if (isprocesscomplete != false) {
+      return CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation<Color>(Colors.white));
+    } else {
+      return new Text(
+        "Sign In",
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 15.0,
+        ),
+      );
+    }
+  }
+
+  void signIn(String username, String password) async {
+    setState(() {
+      isprocesscomplete = true;
+    });
+    var response = await http.post(BaseUrl,
+        headers: {"Content-Type": "application/json"},
+        body: json.encode({
+          "username": username,
+          "password": password,
+        }));
+
+    Map<String, dynamic> value = json.decode(response.body);
+    notification = value["notifications"];
+    // print('Response ${response.body}');
+    if (response.statusCode == 200) {
+      try {
+        ///You don't need it but it will be cool for show progress dialgo for 4 second then redirect even if we get reslut
+        Future.delayed(Duration(seconds: 4), () {
+          // 5s over make it false
+          setState(() {
+            isprocesscomplete = true;
+          });
+        });
+        Map<String, dynamic> value = json.decode(response.body);
+        print('Response ${response.body}');
+        SharedPrefrence().setToken(value['api_token'].toString());
+        SharedPrefrence().setName(value['user_name']);
+        SharedPrefrence().setUserId(value['user_id'].toString());
+
+        ///This is used when user loged in you can set this true,
+        ///next time you open you need to check loginc in main.dart or splashscreen if this is true if it is true then
+        ///redirect to home page it is false then redirect to Login page
+        ///When you logout the app make sure you set this as false like "SharedPrefrence().setLoggedIn(false);"
+        SharedPrefrence().setLoggedIn(true);
+
+        ///Redirect to Home page
+        Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => HomePage(
+                                      user_name: value['user_name'],
+                                      company_name: value['company_name'],
+                                      api_token: value['api_token'],
+                                      notification: notification,
+                                     // payment: payment ,
+                                    )),
+                                ModalRoute.withName("/login"));
+
+      } catch (e) {
+        e.toString();
+        final snackBar =
+        SnackBar(
+            content: Text("something wrong,Try again 😑"),
+          behavior: SnackBarBehavior.floating,
+        );
+        _scaffoldKey.currentState.showSnackBar(snackBar);
+      }
+    } else {
+      var message = value['error'];
+      final snackBar = SnackBar( backgroundColor: Colors.redAccent[700],
+          content: Text(message.toString()),
+        behavior: SnackBarBehavior.floating, );
+      _scaffoldKey.currentState.showSnackBar(snackBar);
+    }
   }
 }

@@ -1,7 +1,19 @@
+import 'package:api_login/pages/homepage.dart';
 import 'package:api_login/pages/login.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'pages/login_page.dart';
+
+// Future<void> main() async {
+//   WidgetsFlutterBinding.ensureInitialized();
+//   SharedPreferences prefs = await SharedPreferences.getInstance();
+//   var status = prefs.getBool('logged_in') ?? false;
+//   print(status);
+//   runApp(MaterialApp(home: status == true ? Login() : HomePage()));
+// }
+
+
 
 void main() {
   runApp(MyApp());

@@ -25,3 +25,29 @@ class DeleteCard extends StatelessWidget {
     );
   }
 }
+
+class AreYouSure extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text('Warning'),
+      content: Text("Are you sure want to save this note"),
+      actions: <Widget>[
+        FlatButton(
+          child: Text("yes"),
+          onPressed: (){
+            Navigator.of(context).pop(true);
+          },
+        ),
+        FlatButton(
+          child: Text('no'),
+          onPressed: (){
+            Navigator.of(context).pop(false);
+          },
+        ),
+
+      ],
+
+    );
+  }
+}

@@ -1,6 +1,6 @@
 import 'package:api_login/model/response_model.dart';
 import 'package:api_login/pages/details.dart';
-import 'package:api_login/pages/settingPage.dart';
+import 'package:api_login/pages/createHandslip.dart';
 import 'package:api_login/widget/delete_card.dart';
 import 'package:api_login/widget/neumorphsm.dart';
 import 'package:flutter/cupertino.dart';
@@ -71,225 +71,275 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text("Cash-Management"),
-          backgroundColor: Colors.blue,
-          actions: [
-            new Stack(
-              children: <Widget>[
-                new IconButton(
-                    icon: Icon(Icons.notifications),
-                    onPressed: () {
-                      setState(() {
-                        counter = 0;
-                      });
-                      setState(() {
-                        isPressed = !isPressed;
-                      });
-
-                    }),
-                counter != 0
-                    ? new Positioned(
-                        right: 11,
-                        top: 11,
-                        child: new Container(
-                          padding: EdgeInsets.all(2),
-                          decoration: new BoxDecoration(
-                            color: Colors.red,
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          constraints: BoxConstraints(
-                            minWidth: 14,
-                            minHeight: 14,
-                          ),
-                          child: Text(
-                            "  ${widget.notification.length} ",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 8,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      )
-                    : new Container()
+      home: Container(
+        decoration: new BoxDecoration(
+          gradient: new LinearGradient(
+              colors: [
+                const Color(0xFF3366FF),
+                const Color(0xFF00CCFF),
               ],
-            ),
-            IconButton(
-                icon: Icon(Icons.exit_to_app),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Login()),
-                  );
-                }),
-          ],
+              begin: const FractionalOffset(0.0, 0.0),
+              end: const FractionalOffset(1.0, 0.0),
+              stops: [0.0, 1.0],
+              tileMode: TileMode.clamp),
         ),
-        body: ListView(
-          children: <Widget>[
-            Card(
-              color: Colors.lightBlue,
-              child: InkWell(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              new SettingPage()));
-                },
-                child: Container(
-                  height: 110,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        "Profile",
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        "${widget.user_name}",
-                        style: TextStyle(
-                          fontSize: 16,
-                        ),
-                      ),
-                      Text(
-                        "${widget.company_name}",
-                        style: TextStyle(fontSize: 16),
-                      ),
-                      // Text(
-                      //   "  ${widget.notification.length} ",),
-                      // Text(" ${nametoprint} "),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            title: Text("Cash-Management"),
+            flexibleSpace: Container(
+              decoration: new BoxDecoration(
+                gradient: new LinearGradient(
+                    colors: [
+                      const Color(0xFF3366FF),
+                      const Color(0xFF00CCFF),
                     ],
+                    begin: const FractionalOffset(0.0, 0.0),
+                    end: const FractionalOffset(1.0, 0.0),
+                    stops: [0.0, 1.0],
+                    tileMode: TileMode.clamp),
+              ),
+            ),
+            actions: [
+              new Stack(
+                children: <Widget>[
+                  new IconButton(
+                      icon: Icon(Icons.notifications),
+                      onPressed: () {
+                        setState(() {
+                          counter = 0;
+                        });
+                        setState(() {
+                          isPressed = !isPressed;
+                        });
+
+                      }),
+                  counter != 0
+                      ? new Positioned(
+                          right: 11,
+                          top: 11,
+                          child: new Container(
+                            padding: EdgeInsets.all(2),
+                            decoration: new BoxDecoration(
+                              color: Colors.red,
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            constraints: BoxConstraints(
+                              minWidth: 14,
+                              minHeight: 14,
+                            ),
+                            child: Text(
+                              "  ${widget.notification.length} ",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 8,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        )
+                      : new Container()
+                ],
+              ),
+              IconButton(
+                  icon: Icon(Icons.exit_to_app),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Login()),
+                    );
+                  }),
+            ],
+          ),
+          body: ListView(
+            children: <Widget>[
+              Card(
+                
+                color: Colors.lightBlue,
+                child: InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                new CreateHandSlipPage()));
+                  },
+                  child: Container(
+                    height: 110,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          "Profile",
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          "${widget.user_name}",
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                        Text(
+                          "${widget.company_name}",
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        // Text(
+                        //   "  ${widget.notification.length} ",),
+                        // Text(" ${nametoprint} "),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-            Flexible(
-              child: Container(
-                color: Colors.lightBlue,
-                height: 430,
-                child: ListView.builder(
-                    itemCount: widget.notification == null
-                        ? 0
-                        : widget.notification.length,
-                    itemBuilder: (context, index) {
-                      final count = widget.notification;
-                      print(count.length);
+              Flexible(
+                child: Container(
+                  decoration: new BoxDecoration(
+                    gradient: new LinearGradient(
+                        colors: [
+                          const Color(0xFF3366FF),
+                          const Color(0xFF00CCFF),
+                        ],
+                        begin: const FractionalOffset(0.0, 0.0),
+                        end: const FractionalOffset(1.0, 0.0),
+                        stops: [0.0, 1.0],
+                        tileMode: TileMode.clamp),
+                  ),
+                  height: 430,
+                  child: ListView.builder(
+                      itemCount: widget.notification == null
+                          ? 0
+                          : widget.notification.length,
+                      itemBuilder: (context, index) {
+                        final count = widget.notification;
+                        print(count.length);
 
-                      return Dismissible(
-                        key: ValueKey(
-                            widget.notification[index]["id"].toString()),
-                        direction: DismissDirection.startToEnd,
-                        onDismissed: (direction) {},
-                        confirmDismiss: (direction) {
-                          return showDialog(
-                              context: context, builder: (_) => DeleteCard());
-                        },
-                        background: Container(
-                          color: Colors.red,
-                          padding: EdgeInsets.only(left: 16),
-                          child: Icon(
-                            Icons.delete,
-                            color: Colors.white,
+                        return Dismissible(
+                          key: ValueKey(
+                              widget.notification[index]["id"].toString()),
+                          direction: DismissDirection.startToEnd,
+                          onDismissed: (direction) {},
+                          confirmDismiss: (direction) {
+                            return showDialog(
+                                context: context, builder: (_) => DeleteCard());
+                          },
+                          background: Container(
+                            color: Colors.red,
+                            padding: EdgeInsets.only(left: 16),
+                            child: Icon(
+                              Icons.delete,
+                              color: Colors.white,
+                            ),
+                            alignment: Alignment.centerLeft,
                           ),
-                          alignment: Alignment.centerLeft,
-                        ),
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0)),
-                          color: isPressed ? Colors.white54 : Colors.white,
-                          child: Padding(
-                            padding: EdgeInsets.all(16.0),
-                            child: InkWell(
-                              onTap: () {
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0)),
+                            color: isPressed ? Colors.white54 : Colors.white,
+                            child: Padding(
+                              padding: EdgeInsets.all(16.0),
+                              child: InkWell(
+                                onTap: () {
 
-                                Navigator.push(
-                                    context,
-                                    new MaterialPageRoute(
-                                        builder: (BuildContext context) =>
-                                            new DetailPage()));
-                              },
-                              child: Column(
-                                children: <Widget>[
-                                  Row(
-                                    children: [
-                                      SizedBox(
-                                        width: 20,
-                                      ),
-                                      Text(
-                                        'Status',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      SizedBox(
-                                        width: 67,
-                                      ),
-                                      Text(widget.notification[index]["data"]
-                                              ["message"]
-                                          .toString()),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      SizedBox(
-                                        width: 20,
-                                      ),
-                                      Text(
-                                        'Amount',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      SizedBox(
-                                        width: 55,
-                                      ),
-                                      Text(widget.notification[index]["data"]
-                                              ["amount"]
-                                          .toString()),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Text('Bdt'),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      SizedBox(
-                                        width: 20,
-                                      ),
-                                      Text(
-                                        'Created at',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      SizedBox(
-                                        width: 35,
-                                      ),
-                                      Text(widget.notification[index]
-                                              ["created_at"]
-                                          .toString()),
-                                    ],
-                                  ),
-                                ],
+                                  Navigator.push(
+                                      context,
+                                      new MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                              new DetailPage()));
+                                },
+                                child: Column(
+                                  children: <Widget>[
+                                    Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        Text(
+                                          'Status',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        SizedBox(
+                                          width: 67,
+                                        ),
+                                        Text(widget.notification[index]["data"]
+                                                ["message"]
+                                            .toString()),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        Text(
+                                          'Amount',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        SizedBox(
+                                          width: 55,
+                                        ),
+                                        Text(widget.notification[index]["data"]
+                                                ["amount"]
+                                            .toString()),
+
+                                        Container(
+                                            width: 25,
+                                            height: 20,
+                                            child: Image(image: AssetImage('asset/taka.png'))),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        Text(
+                                          'Created at',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        SizedBox(
+                                          width: 35,
+                                        ),
+                                        Text(widget.notification[index]
+                                                ["created_at"]
+                                            .toString()),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      );
-                    }),
+                        );
+                      }),
+                ),
               ),
-            ),
-            Container(color: Colors.blue, height: 130, child: Button()),
-          ],
-        ),
+              Container(
+                  decoration: new BoxDecoration(
+                    gradient: new LinearGradient(
+                        colors: [
+                          const Color(0xFF3366FF),
+                          const Color(0xFF00CCFF),
+                        ],
+                        begin: const FractionalOffset(0.0, 0.0),
+                        end: const FractionalOffset(1.0, 0.0),
+                        stops: [0.0, 1.0],
+                        tileMode: TileMode.clamp),
+                  ),
+                  height: 130, child: Button()),
+            ],
+          ),
 
-        // floatingActionButton: FloatingActionButton(onPressed: () {
-        //   print("Increment Counter");
-        //   setState(() {
-        //     counter++;
-        //   });
-        // }, child: Icon(Icons.add),),
+          // floatingActionButton: FloatingActionButton(onPressed: () {
+          //   print("Increment Counter");
+          //   setState(() {
+          //     counter++;
+          //   });
+          // }, child: Icon(Icons.add),),
+        ),
       ),
     );
   }

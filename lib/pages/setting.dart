@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class Voucher extends StatelessWidget {
+class Setting extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
@@ -51,3 +51,9 @@ class _MyCardState extends State<MyCard> {
     );
   }
 }
+
+
+
+
+
+

@@ -2,8 +2,10 @@
 import 'package:api_login/pages/details.dart';
 import 'package:api_login/pages/homepage.dart';
 import 'package:api_login/pages/listPage.dart';
-import 'package:api_login/pages/settingPage.dart';
-import 'package:api_login/pages/voucher.dart';
+import 'package:api_login/pages/createHandslip.dart';
+import 'package:api_login/pages/setting.dart';
+import 'package:api_login/test/main.dart';
+import 'package:api_login/widget/dropdownCompanyJson.dart';
 import 'package:flutter/material.dart';
 
 
@@ -15,7 +17,17 @@ class Button extends StatelessWidget {
 
     return
     Container(
-      color: Colors.lightBlue,
+      decoration: new BoxDecoration(
+        gradient: new LinearGradient(
+            colors: [
+              const Color(0xFF3366FF),
+              const Color(0xFF00CCFF),
+            ],
+            begin: const FractionalOffset(0.0, 0.0),
+            end: const FractionalOffset(1.0, 0.0),
+            stops: [0.0, 1.0],
+            tileMode: TileMode.clamp),
+      ),
       height:50,
     child:Row(children: <Widget>[
 
@@ -30,13 +42,13 @@ class Button extends StatelessWidget {
             context,
             new MaterialPageRoute(
                 builder: (BuildContext context) =>
-                    Voucher()));
+                    Setting()));
       },
       child: Container(
       height: 80,
       width: 80,
       child: Icon(
-      Icons.payment,
+      Icons.settings,
       size: 60,
       color: Colors.white,
       ),
@@ -83,7 +95,7 @@ class Button extends StatelessWidget {
     context,
     new MaterialPageRoute(
     builder: (BuildContext context) =>
-    ListPage()));
+    ListScreen()));
 
     },
       child: Container(
@@ -133,14 +145,14 @@ class Button extends StatelessWidget {
             context,
             new MaterialPageRoute(
                 builder: (BuildContext context) =>
-                    SettingPage()));
+                    CreateHandSlipPage()));
 
       },
       child: Container(
       height: 80,
       width: 80,
       child: Icon(
-      Icons.settings,
+      Icons.add,
       size: 60,
       color: Colors.white,
       ),

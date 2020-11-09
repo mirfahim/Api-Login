@@ -2,7 +2,6 @@ import 'package:api_login/model/response_model.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
 import '../sharePreference.dart';
 import 'homepage.dart';
 
@@ -31,8 +30,15 @@ class _LoginState extends State<Login> {
         child: Center(
           child: Container(
             height: 770,
-             color:  Colors. lightBlue,
-            padding: EdgeInsets.fromLTRB(20, 100, 20, 20),
+            decoration: new BoxDecoration(
+              gradient: new LinearGradient(
+                colors:[Colors.blue , Colors.white],
+                begin: const FractionalOffset(0.0 , 0.0),
+                end: const FractionalOffset(1.0, 0.0),
+                stops: [0.0, 1.0],
+                tileMode: TileMode.clamp,
+              ),
+            ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -45,34 +51,44 @@ class _LoginState extends State<Login> {
                 SizedBox(
                   height: 30,
                 ),
-                Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
+                Container(
+                  decoration: new BoxDecoration(
+                    boxShadow: [
+                      new BoxShadow(
+                        color: Colors.blue,
+                        blurRadius: 20.0,
+                      ),
+                    ],
                   ),
-                  child: Container(
-                    height: 220,
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
+                  child: Card(
+                    shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(30),
-                          child: TextField(
-                            controller: _userController,
-                            decoration: InputDecoration(hintText: "Username"),
+                    child: Container(
+                      height: 220,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(30),
+                            child: TextField(
+                              controller: _userController,
+                              decoration: InputDecoration(hintText: "Username"),
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(30),
-                          child: TextField(
-                            controller: _passwordController,
-                            obscureText: true,
-                            decoration: InputDecoration(hintText: "Password"),
+                          Padding(
+                            padding: const EdgeInsets.all(30),
+                            child: TextField(
+                              controller: _passwordController,
+                              obscureText: true,
+                              decoration: InputDecoration(hintText: "Password"),
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -105,7 +121,9 @@ class _LoginState extends State<Login> {
                 ),
                 FlatButton(
                   child: Text("Forgot password"),
-                  onPressed: () {},
+                  onPressed: () {
+
+                  },
                 ),
               ],
             ),
@@ -146,7 +164,7 @@ class _LoginState extends State<Login> {
     // print('Response ${response.body}');
     if (response.statusCode == 200) {
       try {
-        ///You don't need it but it will be cool for show progress dialgo for 4 second then redirect even if we get reslut
+        ///You don't need it but it will be cool for show progress dialog for 4 second then redirect even if we get result
         Future.delayed(Duration(seconds: 4), () {
           // 5s over make it false
           setState(() {
@@ -159,10 +177,10 @@ class _LoginState extends State<Login> {
         SharedPrefrence().setName(value['user_name']);
         SharedPrefrence().setUserId(value['user_id'].toString());
 
-        ///This is used when user loged in you can set this true,
-        ///next time you open you need to check loginc in main.dart or splashscreen if this is true if it is true then
+        ///This is used when user logged in you can set this true,
+        ///next time you open you need to check login in main.dart or splashscreen if this is true if it is true then
         ///redirect to home page it is false then redirect to Login page
-        ///When you logout the app make sure you set this as false like "SharedPrefrence().setLoggedIn(false);"
+        ///When you logout the app make sure you set this as false like "SharedPreference().setLoggedIn(false);"
         SharedPrefrence().setLoggedIn(true);
 
         ///Redirect to Home page

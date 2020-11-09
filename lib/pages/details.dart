@@ -17,7 +17,7 @@ class DetailPage extends StatelessWidget {
       ),
       body: Container(
         child: Center(
-            child: Text("Details")),
+            child: Text("No data found")),
       ),
     );
   }
